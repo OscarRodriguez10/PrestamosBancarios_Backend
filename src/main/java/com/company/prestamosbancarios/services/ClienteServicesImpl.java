@@ -1,5 +1,6 @@
 package com.company.prestamosbancarios.services;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -7,6 +8,7 @@ import java.util.Optional;
 import org.hibernate.query.NativeQuery.ReturnableResultNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -103,6 +105,55 @@ public class ClienteServicesImpl implements IClienteServices {
 			
 		} catch (Exception e) {
 			response.setMetadata("Repuesta no OK","-1" , "Error al guardar cliente");
+			e.getStackTrace();
+			return new ResponseEntity<ClienteResponseRest>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+			
+						
+		}
+		return new ResponseEntity<ClienteResponseRest>(response,HttpStatus.OK);
+	}
+
+	@Override
+	@Transactional
+	public ResponseEntity<ClienteResponseRest> update(Cliente cliente, Long id) {
+		ClienteResponseRest response = new ClienteResponseRest();
+		List<Cliente> list = new ArrayList<>();
+		try {
+		
+			Optional<Cliente> clienteSearch = clienteDao.findById(id);
+			
+			if (clienteSearch.isPresent()) {
+				
+				//se procedera a actualizar 
+				
+				clienteSearch.get().setNombre(cliente.getNombre());
+				clienteSearch.get().setApellido(cliente.getApellido());
+				clienteSearch.get().setNumeroIdentificacion(cliente.getNumeroIdentificacion());
+				clienteSearch.get().setFechaNacimiento(cliente.getFechaNacimiento());
+				clienteSearch.get().setDireccion(cliente.getDireccion());
+				clienteSearch.get().setCorreo(cliente.getCorreo());
+				clienteSearch.get().setTelefono(cliente.getTelefono());
+			    
+				Cliente clienteActualizar = clienteDao.save(clienteSearch.get());
+				
+				if(clienteActualizar != null)
+				{
+					list.add(clienteActualizar);
+					response.getClienteResponse().setCliente(list);
+					response.setMetadata("Repuesta OK","00" , "Cliente Actualizado Correctamente");
+
+				}else {
+					response.setMetadata("Repuesta no OK","-1" , "Error al actualizar el cliente");
+					return new ResponseEntity<ClienteResponseRest>(response,HttpStatus.BAD_REQUEST);
+				}
+				
+			}else {
+				response.setMetadata("Repuesta no OK","-1" , "Error al encontrar al cliente");
+				return new ResponseEntity<ClienteResponseRest>(response,HttpStatus.NOT_FOUND);
+			}
+			
+		} catch (Exception e) {
+			response.setMetadata("Repuesta no OK","-1" , "Error al actualizar el cliente");
 			e.getStackTrace();
 			return new ResponseEntity<ClienteResponseRest>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 			

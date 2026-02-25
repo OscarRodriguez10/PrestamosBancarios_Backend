@@ -13,6 +13,7 @@ import com.company.prestamosbancarios.services.IClienteServices;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -54,5 +55,11 @@ public class ClienteRestController {
 		return response;
 	}
 
+	@PutMapping("/clientes/{id}")
+	public ResponseEntity<ClienteResponseRest> update(@RequestBody Cliente cliente, @PathVariable Long id){
+		
+		ResponseEntity<ClienteResponseRest> response = service.update(cliente,id);
+		return response;
+	}
 
 }
