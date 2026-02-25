@@ -10,6 +10,7 @@ import com.company.prestamosbancarios.response.ClienteResponseRest;
 import com.company.prestamosbancarios.services.IClienteServices;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
@@ -17,12 +18,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ClienteRestController {
 	
 	@Autowired
-	private IClienteServices services;
+	private IClienteServices service;
 	
+	/**
+	 * obtenemos todos los clientes
+	 */
 	@GetMapping("/clientes")
 	public ResponseEntity<ClienteResponseRest> searchClientes(){
 		
-		ResponseEntity<ClienteResponseRest> response = services.search();
+		ResponseEntity<ClienteResponseRest> response = service.search();
+		return response;
+	}
+	
+	/**
+	 * obtenemos el cliente por medio del ID
+	 */
+	@GetMapping("/clientes/{id}")
+	public ResponseEntity<ClienteResponseRest> searchClientesById(@PathVariable Long id){
+		
+		ResponseEntity<ClienteResponseRest> response = service.searchById(id);
 		return response;
 	}
 
