@@ -10,6 +10,7 @@ import com.company.prestamosbancarios.model.Cliente;
 import com.company.prestamosbancarios.response.ClienteResponseRest;
 import com.company.prestamosbancarios.services.IClienteServices;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,6 +60,18 @@ public class ClienteRestController {
 	public ResponseEntity<ClienteResponseRest> update(@RequestBody Cliente cliente, @PathVariable Long id){
 		
 		ResponseEntity<ClienteResponseRest> response = service.update(cliente,id);
+		return response;
+	}
+	/**
+	 * Elimina el cliente
+	 * @param id
+	 * @return
+	 */
+
+	@DeleteMapping("/clientes/{id}")
+	public ResponseEntity<ClienteResponseRest> delete(@PathVariable Long id){
+		
+		ResponseEntity<ClienteResponseRest> response = service.DeteleById(id);
 		return response;
 	}
 

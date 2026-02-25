@@ -161,6 +161,29 @@ public class ClienteServicesImpl implements IClienteServices {
 		}
 		return new ResponseEntity<ClienteResponseRest>(response,HttpStatus.OK);
 	}
+
+	@Override
+	@Transactional 
+	public ResponseEntity<ClienteResponseRest> DeteleById(Long id) {
+		
+		ClienteResponseRest response = new ClienteResponseRest();
+		
+		
+		try {
+		
+			clienteDao.deleteById(id);
+			response.setMetadata("Repuesta OK","00" , "cliente Eliminado");
+			
+			
+		} catch (Exception e) {
+			response.setMetadata("Repuesta no OK","-1" , "Error al Eliminar");
+			e.getStackTrace();
+			return new ResponseEntity<ClienteResponseRest>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+			
+						
+		}
+		return new ResponseEntity<ClienteResponseRest>(response,HttpStatus.OK);
+	}
 	
 	
 

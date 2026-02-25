@@ -11,6 +11,7 @@ public interface IClienteServices {
 	public ResponseEntity<ClienteResponseRest> searchById(Long id);
 	public ResponseEntity<ClienteResponseRest> save(Cliente cliente);
 	public ResponseEntity<ClienteResponseRest> update(Cliente cliente, Long id);
+	public ResponseEntity<ClienteResponseRest> DeteleById(Long id);
 	
 	
 	
