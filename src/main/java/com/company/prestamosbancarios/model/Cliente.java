@@ -3,6 +3,7 @@ package com.company.prestamosbancarios.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,7 +26,9 @@ public class Cliente implements Serializable{
 	    private Long id;
 	    private String nombre;
 	    private String apellido;
+	
 	    private String numeroIdentificacion;
+
 	    private LocalDate fechaNacimiento;
 	    private String direccion;
 	    private String correo;

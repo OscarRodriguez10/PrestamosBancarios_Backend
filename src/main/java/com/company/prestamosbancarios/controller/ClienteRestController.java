@@ -6,11 +6,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.company.prestamosbancarios.model.Cliente;
 import com.company.prestamosbancarios.response.ClienteResponseRest;
 import com.company.prestamosbancarios.services.IClienteServices;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
@@ -39,5 +42,17 @@ public class ClienteRestController {
 		ResponseEntity<ClienteResponseRest> response = service.searchById(id);
 		return response;
 	}
+	/**
+	 * guardamos al cliente
+	 * @param cliente
+	 * @return
+	 */
+	@PostMapping("/clientes")
+	public ResponseEntity<ClienteResponseRest> save(@RequestBody Cliente cliente){
+		
+		ResponseEntity<ClienteResponseRest> response = service.save(cliente);
+		return response;
+	}
+
 
 }

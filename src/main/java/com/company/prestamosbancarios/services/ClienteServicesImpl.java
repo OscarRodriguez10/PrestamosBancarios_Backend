@@ -76,7 +76,39 @@ public class ClienteServicesImpl implements IClienteServices {
 						
 		}
 		return new ResponseEntity<ClienteResponseRest>(response,HttpStatus.OK);
+		 
+	}
+
+	@Override
+	@Transactional
+
+	public ResponseEntity<ClienteResponseRest> save(Cliente cliente) {
 		
+		ClienteResponseRest response = new ClienteResponseRest();
+		List<Cliente> list = new ArrayList<>();
+		try {
+		
+			Cliente clienteGuardar = clienteDao.save(cliente);
+			
+			if(clienteGuardar != null) {
+				list.add(clienteGuardar);
+				response.getClienteResponse().setCliente(list);
+				response.setMetadata("Repuesta OK","00" , "Cliente guardado");
+			}else {
+				
+				response.setMetadata("Repuesta no OK","-1" , "Cliente no guardado");
+				return new ResponseEntity<ClienteResponseRest>(response,HttpStatus.BAD_REQUEST);
+			}
+			
+			
+		} catch (Exception e) {
+			response.setMetadata("Repuesta no OK","-1" , "Error al guardar cliente");
+			e.getStackTrace();
+			return new ResponseEntity<ClienteResponseRest>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+			
+						
+		}
+		return new ResponseEntity<ClienteResponseRest>(response,HttpStatus.OK);
 	}
 	
 	
